@@ -1,0 +1,12 @@
+otel_trace on;
+
+otel_service_name "${OTEL_SERVICE_NAME}";
+
+otel_exporter {
+    endpoint "${OTEL_EXPORTER_OTLP_ENDPOINT}";
+    interval 5s;
+    batch_size 512;
+    batch_count 4;
+}
+
+otel_trace_context inject;
