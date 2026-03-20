@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  BuildRobot:
+  BuildThemes:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
