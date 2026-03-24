@@ -16,7 +16,7 @@ RUN mkdir -p /tmp/templates/ /var/cache/nginx /var/log/nginx /var/run /tmp/nginx
         /etc/nginx/conf.d \
         /var/run \
         /tmp \
-        /tmp/templates
+        /tmp/templates \
     && \
     chmod -R g+w \
         /var/cache/nginx \
