@@ -17,30 +17,31 @@ spec:
       containers:
       - name: nginx
         image: ghcr.io/shearwater1978/dial-themes-otel:new-otel
-        
         imagePullPolicy: Always
 
+        # DEBUG: sleep вместо nginx - смотрим /tmp/*.conf!
         command: ["/bin/sh", "-c"]
         args: ["sleep 3600"]
-        
+
         ports:
         - containerPort: 8080
           name: http
 
         env:
-        # Адрес вашего Alloy коллектора
-        - name: OTEL_EXPORTER_OTLP_ENDPOINT
-          value: "http://alloy-otel.monitoring.svc.cluster.local.:4317"
+        # OTEL флаг — ВКЛЮЧАЕТ модуль!
+        - name: ENABLE_OTEL_ON
+          value: "on"
+        - name: ENABLE_OTEL
+          value: "true"
         
-        # Протокол (обычно grpc для порта 4317)
+        # Ваши OTEL vars
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://alloy-otel.monitoring.svc.cluster.local:4317"
         - name: OTEL_EXPORTER_OTLP_PROTOCOL
           value: "grpc"
-        
-        # Имя сервиса, которое будет в трейсах
         - name: OTEL_SERVICE_NAME
           value: "dial-themes-test"
 
-        # Защита: Запускаем под пользователем nginx (101) и R/O файловой системой
         securityContext:
           runAsUser: 101
           readOnlyRootFilesystem: true
@@ -49,20 +50,13 @@ spec:
             drop: ["ALL"]
 
         volumeMounts:
-        # 1. Сюда envsubst запишет сгенерированные конфиги (otel.conf, themes.conf)
-        # Это критически важно, так как /etc/nginx/conf.d находится на R/O слое
         - name: conf-d
           mountPath: /etc/nginx/conf.d
-        
-        # 2. Сюда Nginx будет писать временные файлы (client_body, proxy, uwsgi, pid)
-        # В вашем nginx.conf мы перенастроили пути (proxy_temp_path /tmp/...)
         - name: tmp
           mountPath: /tmp
-        
-        # 3. Для логов (access.log, error.log)
         - name: logs
           mountPath: /var/log/nginx
-      
+
       volumes:
       - name: conf-d
         emptyDir: {}
@@ -70,3 +64,4 @@ spec:
         emptyDir: {}
       - name: logs
         emptyDir: {}
+
