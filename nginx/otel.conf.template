@@ -14,4 +14,4 @@ log_format main_otel '$remote_addr - $remote_user [$time_local] "$request" '
                       '"$http_user_agent" "$http_x_forwarded_for" '
                       'trace_id=$otel_trace_id span_id=$otel_span_id';
 
-access_log /var/log/nginx/access.log main_otel;
+access_log /dev/stdout main_otel;
