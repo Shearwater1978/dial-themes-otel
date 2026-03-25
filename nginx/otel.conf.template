@@ -1,18 +1,19 @@
+{{- if eq (getenv "ENABLE_OTEL") "true" -}}
+# OTEL enabled
 otel_trace on;
-otel_service_name "${OTEL_SERVICE_NAME}";
-
+otel_service_name ${OTEL_SERVICE_NAME:-dial-themes};
 otel_exporter {
-    endpoint "${OTEL_EXPORTER_OTLP_ENDPOINT}";
+    endpoint ${OTEL_EXPORTER_OTLP_ENDPOINT:-otel-collector:4317};
     interval 5s;
     batch_size 512;
-    batch_count 4;
 }
 
-otel_trace_context inject;
-
-log_format main_otel '$remote_addr - $remote_user [$time_local] "$request" '
-                     '$status $body_bytes_sent "$http_referer" '
-                     '"$http_user_agent" "$http_x_forwarded_for" '
-                     'trace_id=$otel_trace_id span_id=$otel_span_id';
+log_format main_otel '$remote_addr - $remote_user [$time_local] $request '
+                      'status=$status size=$body_bytes_sent '
+                      'referer="$http_referer" agent="$http_user_agent" '
+                      'traceid=$otel_trace_id spanid=$otel_span_id';
 
 access_log /var/log/nginx/access.log main_otel;
+{{- else -}}
+# OTEL disabled via ENABLE_OTEL=false
+{{- end -}}
