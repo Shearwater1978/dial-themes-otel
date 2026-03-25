@@ -1,9 +1,8 @@
-# Чистый envsubst — ТОЛЬКО ${VAR}!
-otel_trace ${ENABLE_OTEL_ON:-off};
-otel_service_name ${OTEL_SERVICE_NAME:-dial-themes};
+otel_trace $ENABLE_OTEL_ON;
+otel_service_name $OTEL_SERVICE_NAME;
 
 otel_exporter {
-    endpoint ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://otel-collector:4317};
+    endpoint $OTEL_EXPORTER_OTLP_ENDPOINT;
     interval 5s;
     batch_size 512;
 }
