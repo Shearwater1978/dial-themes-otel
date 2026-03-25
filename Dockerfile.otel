@@ -10,22 +10,32 @@ COPY nginx/themes.conf.template /etc/nginx/templates/themes.conf.template
 COPY nginx/otel.conf.template /etc/nginx/templates/otel.conf.template
 COPY scripts/40-envsubst-on-otel.sh /docker-entrypoint.d/40-envsubst-on-otel.sh
 
-RUN mkdir -p /tmp/templates/ /var/cache/nginx /var/log/nginx /var/run /tmp/nginx && \
-    chown -R nginx:nginx \
-        /var/cache/nginx \
-        /var/log/nginx \
+# RUN mkdir -p /tmp/templates/ /var/cache/nginx /var/log/nginx /var/run /tmp/nginx && \
+#     chown -R nginx:nginx \
+#         /var/cache/nginx \
+#         /var/log/nginx \
+#         /etc/nginx/conf.d \
+#         /var/run \
+#         /tmp \
+#         /tmp/templates \
+#     && \
+#     chmod -R g+w \
+#         /var/cache/nginx \
+#         /var/log/nginx \
+#         /etc/nginx/conf.d \
+#         /var/run \
+#         /tmp \
+#         /tmp/templates
+RUN chown -R nginx:nginx \
         /etc/nginx/conf.d \
-        /var/run \
         /tmp \
-        /tmp/templates \
+        /docker-entrypoint.d/40-envsubst-on-otel.sh \
     && \
     chmod -R g+w \
-        /var/cache/nginx \
-        /var/log/nginx \
         /etc/nginx/conf.d \
-        /var/run \
         /tmp \
-        /tmp/templates
+    && \
+    chmod 0755 /docker-entrypoint.d/40-envsubst-on-otel.sh
 
 ENV NGINX_ENVSUBST_OUTPUT_DIR=/tmp
 ENV NGINX_ENVSUBST_TEMPLATE_DIR=/etc/nginx/templates
