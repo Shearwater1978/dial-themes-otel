@@ -15,7 +15,8 @@ RUN chmod +x /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh
 
 RUN mkdir -p /tmp/envsubst \
     && chown -R nginx:nginx /etc/nginx/conf.d /tmp /etc/nginx/templates \
-    && chmod -R g+w /etc/nginx/conf.d /tmp/envsubst \
+    # && chmod -R g+w /etc/nginx/conf.d /tmp/envsubst \
+    && chmod -R g+w /etc/nginx/conf.d \
     && chmod -R 644 /etc/nginx/templates/*.template
 
 # Bake a default value for OTEL
