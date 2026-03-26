@@ -1,8 +1,6 @@
 server {
     listen 8080;
-    
     otel_span_name "main_server_block";
-
     large_client_header_buffers 4 16k;
 
     root /var/www;
