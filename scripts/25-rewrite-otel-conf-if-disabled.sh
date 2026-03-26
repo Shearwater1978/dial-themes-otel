@@ -14,7 +14,7 @@ entrypoint_log() {
 
 rewrite_otel_conf_if_disabled() {
     if [ -z "${OTEL_EXPORTER_OTLP_ENDPOINT:-}" ]; then
-        entrypoint_log "$ME: OTEL_EXPORTER_OTLP_ENDPOINT is not set. Rewriting /tmp/otel.conf"
+        entrypoint_log "$ME: OTEL_EXPORTER_OTLP_ENDPOINT is not set. Rewrite /tmp/otel.conf"
         cat > /tmp/otel.conf << 'EOF'
 otel_trace off;
 
@@ -23,7 +23,7 @@ otel_exporter {
 }
 EOF
     else
-        entrypoint_log "$ME: OTEL_EXPORTER_OTLP_ENDPOINT is set ('$OTEL_EXPORTER_OTLP_ENDPOINT'). Keeping existing /tmp/otel.conf"
+        entrypoint_log "$ME: OTEL_EXPORTER_OTLP_ENDPOINT is set ('$OTEL_EXPORTER_OTLP_ENDPOINT'). Keep existing /tmp/otel.conf"
     fi
 }
 
