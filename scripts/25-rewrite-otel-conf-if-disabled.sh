@@ -13,10 +13,10 @@ entrypoint_log() {
 rewrite_otel_conf_if_disabled() {
     case "${OTEL_ENABLED:-}" in
         [oO][nN])
-            entrypoint_log "$ME: OTEL_ENABLED='${OTEL_ENABLED}'"
+            entrypoint_log "$ME: OTEL_ENABLED='${OTEL_ENABLED}'. Keep existing file"
             ;;
         *)
-            entrypoint_log "$ME: OTEL_ENABLED='${OTEL_ENABLED:-<empty>}'"
+            entrypoint_log "$ME: OTEL_ENABLED='${OTEL_ENABLED:-<empty>}'. Rewriting existing file"
             cat > /tmp/otel.conf << 'EOF'
 otel_trace off;
 
