@@ -1,20 +1,13 @@
-set $otel_status off;
+otel_trace $ENABLE_OTEL_ON;
+otel_service_name $OTEL_SERVICE_NAME;
 
-map $ENABLE_OTEL_ON $otel_status {
-  on  on;
-  off off;
-  default off;
-}
-
-if ($otel_status = on) {
-  otel_trace on;
-  otel_service_name $OTEL_SERVICE_NAME;
-  otel_exporter {
+otel_exporter {
     endpoint $OTEL_EXPORTER_OTLP_ENDPOINT;
     interval 5s;
-  }
-  otel_trace_context inject;
+    batch_size 512;
 }
+
+otel_trace_context inject;
 
 log_format main_otel '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
