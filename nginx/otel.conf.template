@@ -1,4 +1,4 @@
-otel_trace $ENABLE_OTEL_ON;
+otel_trace $OTEL_ENABLED;
 otel_service_name $OTEL_SERVICE_NAME;
 
 otel_exporter {

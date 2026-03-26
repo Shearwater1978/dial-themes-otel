@@ -11,12 +11,12 @@ entrypoint_log() {
 }
 
 rewrite_otel_conf_if_disabled() {
-    case "${ENABLE_OTEL_ON:-}" in
+    case "${OTEL_ENABLED:-}" in
         [oO][nN])
-            entrypoint_log "$ME: ENABLE_OTEL_ON='${ENABLE_OTEL_ON}'"
+            entrypoint_log "$ME: OTEL_ENABLED='${OTEL_ENABLED}'"
             ;;
         *)
-            entrypoint_log "$ME: ENABLE_OTEL_ON='${ENABLE_OTEL_ON:-<empty>}'"
+            entrypoint_log "$ME: OTEL_ENABLED='${OTEL_ENABLED:-<empty>}'"
             cat > /tmp/otel.conf << 'EOF'
 otel_trace off;
 
