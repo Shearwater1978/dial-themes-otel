@@ -10,7 +10,7 @@ COPY nginx/themes.conf.template /etc/nginx/templates/themes.conf.template
 COPY nginx/otel.conf.template /etc/nginx/templates/otel.conf.template
 
 # New file
-COPY 25-rewrite-otel-conf-if-disabled.sh /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh
+COPY scripts/25-rewrite-otel-conf-if-disabled.sh /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh
 RUN chmod +x /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh
 
 RUN mkdir -p /tmp/envsubst \
