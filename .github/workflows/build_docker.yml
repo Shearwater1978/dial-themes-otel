@@ -2,8 +2,8 @@ name: Build Themes docker image
 run-name: Build Themes docker image with Otel module 🚀
 on:
   push:
-    paths:
-      - Dockerfile.otel
+    # paths:
+    #   - Dockerfile.otel
   workflow_dispatch:
 
 env:
