@@ -14,6 +14,7 @@ COPY nginx/otel.conf.template /etc/nginx/templates/otel.conf.template
 
 COPY scripts/25-rewrite-otel-conf-if-disabled.sh /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh
 
+USER root
 RUN chmod +x /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh \
     && chown -R nginx:nginx /etc/nginx/conf.d /tmp /etc/nginx/templates \
     && chmod -R g+w /etc/nginx/conf.d \
