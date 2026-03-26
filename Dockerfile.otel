@@ -9,10 +9,17 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/themes.conf.template /etc/nginx/templates/themes.conf.template
 COPY nginx/otel.conf.template /etc/nginx/templates/otel.conf.template
 
+# New file
+COPY 25-rewrite-otel-conf-if-disabled.sh /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh
+RUN chmod +x /docker-entrypoint.d/25-rewrite-otel-conf-if-disabled.sh
+
 RUN mkdir -p /tmp/envsubst \
     && chown -R nginx:nginx /etc/nginx/conf.d /tmp /etc/nginx/templates \
     && chmod -R g+w /etc/nginx/conf.d /tmp/envsubst \
     && chmod -R 644 /etc/nginx/templates/*.template
+
+# Bake a default value for OTEL
+ENV ENABLE_OTEL_ON=off
 
 ENV NGINX_ENVSUBST_OUTPUT_DIR=/tmp
 ENV NGINX_ENVSUBST_TEMPLATE_DIR=/etc/nginx/templates
